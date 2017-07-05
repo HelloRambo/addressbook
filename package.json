@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm run build && nodemon lib/index.js",
-    "build": "tsc --allowJs"
+    "build": "tsc"
   },
   "author": "rambo",
   "license": "MIT",
