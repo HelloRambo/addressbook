@@ -24,5 +24,5 @@ app.use(jwtKoa({secret}).unless({
 
 app.use(api.routes())
 
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
 console.log('Server up and running! On port 3000...')
