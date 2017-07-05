@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/test');
+// mongoose.connect('mongodb://localhost/test');
+mongoose.connect("mongodb://user:user@ds129030.mlab.com:29030/rambooj");
+
 
 
 const ContactSchema = mongoose.Schema({
