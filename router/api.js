@@ -8,10 +8,10 @@ const api = new Router({
 })
 
 api
-  .post('/users', User.create_user)
-  .post('/token', User.get_token)
+  .post('/users', User.createUser)
+  .post('/token', User.getToken)
   .post('/contacts', Contact.add)
-  .del('/contact/:id', Contact.remove)
+  .del('/contacts/:id', Contact.remove)
   .get('/contacts', Contact.list)
  
 module.exports =  api

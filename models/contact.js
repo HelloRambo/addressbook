@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/test');
 
 const ContactSchema = mongoose.Schema({
     id: Number,
-    user: String,
+    userId: Number,
     name: String,
     phone: String,
     address: String

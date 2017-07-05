@@ -1,78 +1,51 @@
-const UserModel = require('../models/user');
+const UserModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
+const APIError = require('../middlreware/rest').APIError
 
+const bcrypt = require('bcryptjs')
 
-const md5 = require('md5');
 const secret = 'jwt demo'
 
 
 class User {
-    static async create_user(ctx) {
-        const {name, password, email} = ctx.request.body;
-        console.log(ctx.request.body);
-        if (!name || !password) {
-            const result = {
-                code: 400,
-                message: 'The username or password can`t be null.',
-                data: ''
+    static async createUser(ctx) {
+        const user = ctx.request.body
+        console.log(user)
+        if (user.password && user.name) {
+            const existUser = await UserModel.findUserByName(user.name)
+            if (!existUser) {
+                const salt = bcrypt.genSaltSync()
+                const hash = bcrypt.hashSync(user.password, salt)
+                user.password = hash
+                await UserModel.createUser(user)
+                const newUser = await UserModel.findUserByName(user.name)
+                ctx.rest(newUser)
+            } else {
+                throw new APIError('user:exist', 'the user is exist')
             }
-            return ctx.response.body = result;
-        } 
-        var user = await UserModel.create({
-          name: name,
-          password: md5(password),
-          email: email
-        });
-        console.log('created: ' + JSON.stringify(user));
-        return ctx.response.body = user
-    };
+        } else {
+            throw new APIError('params:invalid', 'the username or password cant be null.')
+        }
+    }
 
-    static async get_token(ctx) {
-        const {email, password} =  ctx.request.body;
-        console.log('emal', email, password)
-        var user = await UserModel.findOne({
-            where: {
-                email: email
+    static async getToken(ctx) {
+        const data = ctx.request.body
+        const user = await UserModel.findUserByName(data.name)
+        if (user) {
+            if (bcrypt.compareSync(data.password, user.password)) {
+                const userToken = {
+                    name: user.name,
+                    id: user.id
+                }
+                const token = jwt.sign(userToken, secret, {expiresIn: '1h'})
+                ctx.rest({
+                    token: token
+                })
+            } else {
+                throw new APIError("params:invalid", "the username or password is wrong.")
             }
-        });
-        console.log('user', user)
-        console.log('username', user.name)
-        if (!user) {
-            const result = {
-                message: 'The email is wrong.',
-                data: ''
-            }
-            return ctx.response.body = result
-        }
-
-        const password_md5 = md5(password);
-        if (password_md5 !== user.password) {
-            const result = {
-                message: 'The password is wrong.',
-                data: ''
-            }
-            return ctx.response.body = result
-        }
-
-        var userToken = {
-            name: user.name
-        }
-
-        const token = jwt.sign(userToken, secret, {expiresIn: '1h'})
-        const result = {
-            token: token,
-            message: 'Successed login.'
-        }
-        console.log('result', result)
-        return ctx.response.body = result
-    };
-
-    static async get_user_info(ctx) {
-        const token = ctx.header.authorization
-        let payload
-        if (token) {
-            payload = await jwt.verify(token.split(' ')[1], secret)
-            console.log('payload', payload)
+        } else {
+            throw new APIError("user:is_not_exist", "the user is not exist.")
         }
     }
 }

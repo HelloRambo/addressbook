@@ -2,7 +2,13 @@ const Sequelize = require('sequelize');
 const sequelize = require('./sequelize')
 
 
-const UserModel = sequelize.define('user', {
+const UserSchema = sequelize.define('user', {
+    id: {
+      type: Sequelize.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -19,6 +25,6 @@ const UserModel = sequelize.define('user', {
     }
 });
 
-UserModel.sync(); // create table
+UserSchema.sync(); // create table
 
-module.exports = UserModel;
+module.exports = UserSchema;

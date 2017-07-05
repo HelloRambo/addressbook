@@ -9,6 +9,7 @@
   "author": "rambo",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
