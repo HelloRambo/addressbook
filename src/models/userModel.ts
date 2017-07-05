@@ -1,4 +1,4 @@
-const UserSchema = require('./userSchema')
+import UserSchema from './userSchema'
 
 class UserModel {
   static async findUserByName (name) {
@@ -20,4 +20,4 @@ class UserModel {
   }
 }
 
-module.exports = UserModel
+export default UserModel

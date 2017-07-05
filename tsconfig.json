@@ -1,0 +1,15 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true
+  }
+}

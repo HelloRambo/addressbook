@@ -1,7 +1,7 @@
-const Router = require('koa-router')
+import * as Router from 'koa-router'
 
-const User = require('../controllers/user')
-const Contact = require('../controllers/contact')
+import User from '../controllers/user'
+import Contact from '../controllers/contact'
 
 const api = new Router({
   prefix: '/api'
@@ -14,4 +14,4 @@ api
   .del('/contacts/:id', Contact.remove)
   .get('/contacts', Contact.list)
  
-module.exports =  api
+export default api

@@ -1,9 +1,11 @@
-const Koa = require('koa')
-const bodyParser = require('koa-bodyparser')
-const jwtKoa = require('koa-jwt')
+import * as Koa from 'koa'
+import * as bodyParser from 'koa-bodyparser'
+import * as jwtKoa from 'koa-jwt'
+
 const secret = 'jwt demo'
-const rest = require('./middlreware/rest')
-const api = require('./router/api')
+
+import rest from './middlreware/rest'
+import api from './router/api'
 
 const app = new Koa()
 
@@ -16,7 +18,7 @@ app.use(async (ctx, next) => {
 app.use(bodyParser())
 
 // bind rest() for ctx
-app.use(rest.restify())
+app.use(rest())
 
 app.use(jwtKoa({secret}).unless({
     path: [/^\/api\/users/, /^\/api\/token/]
@@ -24,5 +26,5 @@ app.use(jwtKoa({secret}).unless({
 
 app.use(api.routes())
 
-app.listen(3000)
-console.log('Server up and running! On port 3000...')
+export default app
+

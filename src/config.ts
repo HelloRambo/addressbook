@@ -6,4 +6,4 @@ var config = {
     port: 3306
 };
 
-module.exports = config;
+export default config

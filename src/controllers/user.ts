@@ -1,14 +1,15 @@
-const UserModel = require('../models/userModel')
-const jwt = require('jsonwebtoken')
-const APIError = require('../middlreware/rest').APIError
+import UserModel from '../models/userModel'
+import * as jwt from 'jsonwebtoken'
+import APIError from '../middlreware/error'
 
-const bcrypt = require('bcryptjs')
+import * as bcrypt from 'bcryptjs'
 
 const secret = 'jwt demo'
 
 
 class User {
     static async createUser(ctx) {
+        console.log('run')
         const user = ctx.request.body
         console.log(user)
         if (user.password && user.name) {
@@ -50,4 +51,4 @@ class User {
     }
 }
 
-module.exports =  User;
+export default User

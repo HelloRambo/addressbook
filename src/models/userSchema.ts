@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('./sequelize')
+import * as Sequelize from 'sequelize'
+import sequelize from './sequelize'
 
 
 const UserSchema = sequelize.define('user', {
@@ -23,8 +23,8 @@ const UserSchema = sequelize.define('user', {
       allowNull: false,
       unique: true
     }
-});
+})
 
 UserSchema.sync(); // create table
 
-module.exports = UserSchema;
+export default UserSchema

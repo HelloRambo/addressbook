@@ -8,7 +8,6 @@ const APIError = require('../middlreware/rest').APIError
 class Contact {
     static async add(ctx) {
         const user = ctx.state.user
-        console.log(user)
         const newContact = ctx.request.body
         console.log('newContact', newContact)
         ContactModel.count({}, function (err, num) {
@@ -42,4 +41,4 @@ class Contact {
     }
 }
 
-module.exports =  Contact;
+export default Contact
